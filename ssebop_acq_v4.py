@@ -10,28 +10,31 @@ import requests
 import os
 import zipfile
 
-# Create a function to download and extract files
+# edit output folder location:
+folder_name = '/base-path/ssebop_daily'
+
+# create a function to download and extract files
 def download_and_extract(url):
     response = requests.get(url)
     if response.status_code == 200:
-        # Get the file name from the URL
+        # extract file name from the URL
         file_name = url.split('/')[-1]
         with open(file_name, 'wb') as f:
             f.write(response.content)
         
-        # Unzip the downloaded file
+        # unzip the downloaded file
         with zipfile.ZipFile(file_name, 'r') as zip_ref:
-            # Extract tif file
+            # extract tif file
             for file in zip_ref.namelist():
                 if file.endswith('.tif'):
                     zip_ref.extract(file)
-                    # Rename the extracted tif file
+                    # rename the extracted tif file
                     os.rename(file, f'{file.split(".")[0][3:]}.tif')
                     
-        # Remove the downloaded zip file after extraction
+        # remove the downloaded zip file after extraction
         os.remove(file_name)
 
-# Function to generate URLs based on the given criteria
+# function to generate URLs
 def generate_urls():
     urls = []
     for year in range(2000, 2022):
@@ -41,20 +44,19 @@ def generate_urls():
             urls.append(f'https://edcintl.cr.usgs.gov/downloads/sciweb1/shared/uswem/web/conus/eta/modis_eta/daily/downloads/det{year}{day_str}.modisSSEBopETactual.zip')
     return urls
 
-# Create a folder for extracted tif files
-folder_name = '/home/lkc33/palmer_scratch/ssebop_daily'
+# folder for extracted tif files
 if not os.path.exists(folder_name):
     os.makedirs(folder_name)
 
 os.chdir(folder_name)
 
-# Download and extract files
+# download and extract files
 urls = generate_urls()
 for url in urls:
     download_and_extract(url)
     print(f'Downloaded and extracted: {url}')
 
-# Move extracted tif files to the SSEBop Daily ET Data folder
+# move extracted tif files to the SSEBop Daily ET Data folder
 for file in os.listdir():
     if file.endswith('.tif'):
         os.rename(file, os.path.join(folder_name, file))
