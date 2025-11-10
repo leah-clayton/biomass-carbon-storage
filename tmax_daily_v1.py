@@ -20,16 +20,17 @@ start_year = 2000
 end_year = 2020
 
 # Set path for input Daymet data (do not include a / at the end)
-input_path = '/home/lkc33/palmer_scratch/daymet_data'
+input_path = '/base-path/daymet_data'
 
 # Set folder for output file (do not include a / at the end)
-output_loc = '/home/lkc33/palmer_scratch/rddr_app_water_daily/tmax_daily'
+output_loc = '/base-path/rddr_app_water_daily/tmax_daily'
 
 
 """
 ------ Do not edit any code below this line ----------------------------------
 """
 #%%
+# create output directory if it doesn't exist
 def create_dir_if_not_exists(output_path):
     if not os.path.exists(output_path):
         os.makedirs(output_path)
@@ -38,6 +39,7 @@ def create_dir_if_not_exists(output_path):
         
 create_dir_if_not_exists(output_loc)
 
+# initialize range of years to extract data
 years = range(start_year, end_year + 1)
 
 for year_int in years:
@@ -49,17 +51,16 @@ for year_int in years:
     daily.info()
     
     #%%
-    # Reduce to precipitation
+    # Reduce to tmax
     ds = daily['tmax']
     
-     # Remove the first and last time steps (prior and subsequent year data)
+     # remove the first and last time steps (one day of prior and subsequent year data)
     ds_trim = ds.isel(time=slice(1,366))
     
-    # Select file path to save output to
-
+    # select file path to save output to
     file_path = f'{output_loc}/tmax_daily_{year}.nc'
     
-    # Save to netCDF
+    # save to netCDF
     ds_trim.to_netcdf(file_path)
     
     # close open files
@@ -67,7 +68,7 @@ for year_int in years:
     ds.close()
     ds_trim.close()
     
-#%% Combine all files
+#%% combine all files
 input_loc = output_loc
 
 file_paths = []
@@ -81,10 +82,10 @@ output_netcdf = output_loc + '/tmax_daily_2000_2020.nc'
 
 datasets = [xr.open_dataset(file) for file in file_paths]
 
-# Step 3: Combine datasets along the time dimension
+# combine datasets along the time dimension
 combined_dataset = xr.concat(datasets, dim='time', join='override')
 
 print(combined_dataset)
 
-# Step 5: Save the combined dataset to a netCDF file
+# save the combined dataset to a netCDF file
 combined_dataset.to_netcdf(output_netcdf)
