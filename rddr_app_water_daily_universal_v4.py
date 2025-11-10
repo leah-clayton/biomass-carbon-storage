@@ -20,13 +20,15 @@ start_year = 2000
 end_year = 2020
 
 # Set path for input Daymet data (do not include a / at the end)
-input_path = '/home/lkc33/palmer_scratch/daymet_data'
+input_path = '/base-path/daymet_data'
 
 # Set folder for output file (do not include a / at the end)
-output_loc = '/home/lkc33/palmer_scratch/rddr_app_water_daily'
+output_loc = '/base-path/rddr_app_water_daily'
 
 # Export individual test days to compare across products? (boolean)
 test_days = True
+# list of days to test
+days_list = [1, 500, 1825, 5400, 7000]
 
 
 """
@@ -37,7 +39,7 @@ test_days = True
 sens_analysis = False
 
 # specify the type of sensitivity analysis (str) 
-# Options currently coded for: high_rdd, low_rdd
+# options currently coded for: high_rdd, low_rdd
 sens_type = ' '
 
 """
@@ -252,20 +254,16 @@ for year_int in years:
     ds_trim.close()
     
 #%% Combine all files
-
 if sens_analysis == False:
     input_loc = output_loc
-
 else:
     input_loc = output_loc + f'/sens_analysis/{sens_type}'
     
-
 file_paths = []
 
 for year in range(start_year, end_year + 1):
     if sens_analysis == False:
-        file_path = input_loc + f'/rddr_app_water_daily_{year}.nc'
-        
+        file_path = input_loc + f'/rddr_app_water_daily_{year}.nc'  
     else:
         file_path = input_loc + f'/rddr_app_water_daily_{sens_type}_{year}.nc'
         
@@ -273,24 +271,21 @@ for year in range(start_year, end_year + 1):
 
 # output NetCDF file
 if sens_analysis == False:
-    output_netcdf = output_loc + '/rddr_daily_app_water_2000_2020.nc'
-    
+    output_netcdf = output_loc + '/rddr_daily_app_water_2000_2020.nc'  
 else:
     output_netcdf = output_loc + f'/sens_analysis/{sens_type}/rddr_daily_app_water_{sens_type}_2000_2020.nc'
 
-
 datasets = [xr.open_dataset(file) for file in file_paths]
 
-# Step 3: Combine datasets along the time dimension
+# combine datasets along the time dimension
 combined_dataset = xr.concat(datasets, dim='time', join='override')
 
 print(combined_dataset)
 
-# Step 5: Save the combined dataset to a netCDF file
+# save the combined dataset to a netCDF file
 combined_dataset.to_netcdf(output_netcdf)
 
-#%% Export test days
-days_list = [1, 500, 1825, 5400, 7000]
+#%% export test days
 
 if test_days == True:
     for n in days_list:
