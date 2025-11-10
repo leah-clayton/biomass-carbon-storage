@@ -11,7 +11,7 @@ import numpy as np
 import os
 
 # paths to the NetCDF files (don't include / at the end)
-base_path = '/home/lkc33/palmer_scratch'
+base_path = '/base-path/palmer_scratch'
 
 # set to true if performing a sensitivity analysis run (boolean)
 sens_analysis = True
@@ -33,7 +33,7 @@ vers = '35'
 """
 --- Check file paths below ---------------------------------------------------
 """
-aet_path = '/home/lkc33/project/final_daily_wb_data/ssebop_daily_aet_2000_2020.nc'
+aet_path = '/base-path/final_daily_wb_data/ssebop_daily_aet_2000_2020.nc'
 
 if aet_correct == True:
     tmax_path = base_path + '/rddr_app_water_daily/tmax_daily/tmax_daily_2000_2020.nc'
@@ -46,7 +46,7 @@ if aet_correct == True:
     aet_str = aet_num.replace('.','')
     
 if sens_analysis == False:
-    app_water_path = '/home/lkc33/project/final_daily_wb_data/rddr_daily_app_water_2000_2020.nc'
+    app_water_path = '/base-path/final_daily_wb_data/rddr_daily_app_water_2000_2020.nc'
     snow_path = base_path + '/rddr_app_water_daily/snow_presence/snow_presence_daily_2000_2020.nc'
     if aet_correct == True:
         output_path = output_loc + f'/daily_required_storage_2001_2020_v{vers}_aet{aet_str}.nc'
