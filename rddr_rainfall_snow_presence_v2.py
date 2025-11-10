@@ -20,10 +20,10 @@ start_year = 2000
 end_year = 2020
 
 # Set path for input Daymet data (do not include a / at the end)
-input_path = '/home/lkc33/palmer_scratch/daymet_data'
+input_path = '/base-path/daymet_data'
 
 # Set folder for output file (do not include a / at the end)
-output_loc = '/home/lkc33/palmer_scratch/rddr_app_water_daily'
+output_loc = '/base-path/rddr_app_water_daily'
 
 
 """
@@ -123,8 +123,7 @@ for year_int in years:
     daily['snowfall'] = snowfall
     daily['snowfall'].attrs['long_name'] = 'Snowfall'
     daily['snowfall'].attrs['units'] = 'mm d-1'
-    
-    
+       
     #%% Iteratively calculate snowpack and snowmelt
     # Initialize empty 'swe' variable
     daily['swe'] = xr.DataArray(np.zeros_like(daily['prcp']), dims=('time', 'y', 'x'))
@@ -273,12 +272,12 @@ for var in variables:
     
     datasets = [xr.open_dataset(file) for file in file_paths]
     
-    # Step 3: Combine datasets along the time dimension
+    # combine datasets along the time dimension
     combined_dataset = xr.concat(datasets, dim='time', join='override')
     
     print(combined_dataset)
     
-    # Step 5: Save the combined dataset to a netCDF file
+    # save the combined dataset to a netCDF file
     combined_dataset.to_netcdf(output_netcdf)
     
     combined_dataset.close()
