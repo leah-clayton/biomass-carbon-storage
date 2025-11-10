@@ -12,16 +12,21 @@ import datetime
 import calendar
 import xarray as xr
 
-input_loc = '/home/lkc33/palmer_scratch/ssebop_analysis_ready'
+# location of clipped/reprojected AET data
+input_loc = '/base-path/ssebop_analysis_ready'
 
-output_loc = '/home/lkc33/palmer_scratch/final_daily_wb_data'
+# output save location and file name of AET netcdf
+output_loc = '/base-path/final_daily_wb_data'
 output_file = output_loc + '/ssebop_daily_aet_2000_2020.nc'
 
-daymet_path = '/home/lkc33/palmer_scratch/rddr_app_water_daily/rddr_daily_app_water_2000_2020.nc'
+# Daymet data location (to ensure axes match)
+daymet_path = '/base-path/rddr_app_water_daily/rddr_daily_app_water_2000_2020.nc'
 
+# start and end dates
 start_date = datetime.date(2000, 1, 1)
 end_date = datetime.date(2020, 12, 30)
 
+# create list of file names
 file_names = []
 
 current_date = start_date
@@ -71,9 +76,7 @@ for i, geotiff in enumerate(daily_geotiffs):
         'gdal_translate',
         '-of', 'netCDF',
         '-co', 'FORMAT=NC4',
-        '-co', 'WRITE_BOTTOMUP=NO',
-        #'-r', 'cubic',
-        #'-a_ullr', str(upper_left_x), str(upper_left_y), str(lower_right_x), str(lower_right_y),
+        '-co', 'WRITE_BOTTOMUP=NO', # key for compiling with the correct orientation!
         '-a_srs', daymet_string,
         geotiff,
         output_netcdf,
@@ -90,7 +93,6 @@ print('\ndataset before Daymet axis application')
 print(concatenated_dataset)
 
 # ensure axes between Daymet and AET data are identical
-
 daymet = xr.open_dataset(daymet_path)
 
 time_axis = daymet['time']
