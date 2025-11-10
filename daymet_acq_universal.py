@@ -23,12 +23,10 @@ end_year = 2020
 daymet_end_year = 2023
 
 # Set pathway where shapefile is located (do not include / at the end)
-#shapefile_loc = '/shapefile_loc_string.shp'
-shapefile_loc = '/home/lkc33/project/western_us_shp/Western_States_Merge_4.shp'
+shapefile_loc = '/shapefile_loc_string.shp'
 
 # Set folder for output file (do not include / at the end)
-#output_loc = '/output_folder_string'
-output_loc = '/home/lkc33/palmer_scratch/daymet_data/'
+output_loc = '/output_folder_string'
 
 """
 ------ Do not edit any code below this line ----------------------------------
@@ -49,7 +47,7 @@ warnings.filterwarnings("ignore", message=".*Index.*")
 gdf = gpd.read_file(shapefile_loc)
 
 # select the geometry from the shapefile as 'polygon' and feed to geometry variable
-# This may change if the shapefile is not 'Western_States_4' file
+# this may change depending on the exact shapefile, so check for individual file
 row_index = 0
 column_name = 'geometry'
 polygon = gdf.loc[row_index, column_name]
