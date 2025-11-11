@@ -12,15 +12,20 @@ import rasterio
 from rasterio.transform import rowcol
 from rasterio.warp import transform
 
-csv_files = ['/Users/leahclayton/Documents/Burial Tool Paper/burial_geo_lca/optimized_paths_results_lowDOCf.csv',
-             '/Users/leahclayton/Documents/Burial Tool Paper/burial_geo_lca/optimized_paths_results_lowCH4ox.csv'
+# csv file output from burial_geo_lca_analysis_v#.py scripts, list for sensitivity analyses
+csv_files = ['/base-path/optimized_paths_results_lowDOCf.csv',
+             '/base-path/optimized_paths_results_lowCH4ox.csv'
          ]
 
-c_rasters = ['/Users/leahclayton/Documents/Burial Tool Paper/burial_geo_lca/burial_lca_min0_md667_exc00045734_doz00099195_ox01_docf003_ch4ox075.tif',
-             '/Users/leahclayton/Documents/Burial Tool Paper/burial_geo_lca/burial_lca_min0_md667_exc00045734_doz00099195_ox01_docf0088_ch4ox01.tif'
+# corresponding burial C rasters for each csv file
+c_rasters = ['/base-path/burial_lca_min0_md667_exc00045734_doz00099195_ox01_docf003_ch4ox075.tif',
+             '/base-path/burial_geo_lca/burial_lca_min0_md667_exc00045734_doz00099195_ox01_docf0088_ch4ox01.tif'
              ]
 
-depth_raster = '/Users/leahclayton/Documents/Burial Tool Paper/Burial Tool GIS/req_soil_depth_95th_v35_aet05_1km_finalclip_mskd.tif'
+# burial depth raster, final masked output from burial_geo_raster_calc_v#.py
+depth_raster = '/base-path/req_soil_depth_95th_v35_aet05_1km_finalclip_mskd.tif'
+
+# minimum burial depth thresholds for each file in the list
 depth_thresholds = [0, 0]
 
 # set beccs_end_pt c_weight
@@ -45,15 +50,7 @@ for i in range(len(csv_files)):
     df['index'] = df.iloc[:, 0].str.extract(r'_(\d+)\.graphml')
     df['index'] = df['index'].astype(int)
     
-    # extract type of file
-    """
-    df['type'] = np.where(df['file'].str.contains('raster', case=False, na=False),
-                          'burial',
-                          np.where(df['file'].str.contains('beccs', case=False, na=False),
-                                   'beccs',
-                                   'error'))
-    """
-    
+    # extract type of file  
     df['type'] = np.where(df['file'].str.contains('raster', case=False, na=False),
                           'burial',
                           'beccs')
