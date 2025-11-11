@@ -6,14 +6,14 @@ Created on Sat Dec  7 16:18:51 2024
 @author: leahclayton
 """
 
-## output files are 4 GB each where input are 1 GB -- check for this error
-
 import rasterio
 from rasterio.mask import mask
 import numpy as np
 import geopandas as gpd
+import xarray as xr
+import rioxarray
 
-base_path = '/home/lkc33/palmer_scratch'
+base_path = '/base-path'
 shp_path = '/home/lkc33/project/western_us_shp_wgs84/Western_States_Merge_4_WGS84.shp'
 
 # reclassification rules
@@ -71,34 +71,21 @@ for year in range(2001, 2021):
     
     print(f'{year} reclassified clipped raster saved')
     
-rasters = []
+file_paths = []
 
+# create file path structure
 for year in range(2001, 2021):
+    
     raster_file = base_path + f'/annual_nlcd/nlcd_west_mask_{year}.tif'
+    file_paths.append(raster_file)
+    
 
-    with rasterio.open(raster_file) as src:
-        rasters.append(src.read(1))  # Assumes single-band rasters
-
-# Stack rasters into a 3D NumPy array (shape: height x width x number of rasters)
-stacked_rasters = np.stack(rasters, axis=2)
-
-# Apply majority rule
-final_raster = np.all(stacked_rasters == 1, axis=2).astype(int)  # Convert boolean to integer
-
-# Copy metadata from the first raster
-with rasterio.open(raster_file) as src:
-    meta = src.meta.copy()
-
-# Update metadata for the output raster
-meta.update({
-    'dtype': 'int8',
-    'count': 1  # Only one band in the final raster
-})
+datasets = [rioxarray.open_rasterio(fp) for fp in file_paths]
+combined = xr.concat(datasets, dim="time")
+collapsed = combined.reduce(np.logical_or, dim="time")
+collapsed = collapsed.astype(np.int8)
+print(collapsed)
 
 final_output = base_path + '/annual_nlcd/nlcd_west_mask_2001_2020.tif'
-
-# write to a new file
-with rasterio.open(final_output, "w", **meta) as dst:
-    dst.write(final_raster, 1)
-
+collapsed.rio.to_raster(final_output)
 print('Final combined raster saved')
