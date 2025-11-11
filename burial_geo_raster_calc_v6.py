@@ -16,7 +16,7 @@ User inputs -------------------------------------------------------------------
 """
 #%% set file paths
 
-base_path = '/home/lkc33/palmer_scratch/burial_lca'
+base_path = '/base-path/burial_lca'
 
 # minimum required burial depth (raster, units: m)
 bur_dep_path = base_path + '/input_files/req_soil_depth_95th_v35_aet05_1km_finalclip.tif'
