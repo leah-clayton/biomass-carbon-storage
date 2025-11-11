@@ -23,13 +23,14 @@ User inputs ******************************************************************
 ''' ------------------------- Set File Paths ------------------------------'''
 
 # identify trial for saved network output -- include '_' before trial names!
+# ex. '_lowDOCf'
 trials = ['']
 
 # base path
-base_path = '/home/lkc33/palmer_scratch/burial_lca'
+base_path = '/base-path/burial_lca'
 
 # Shapefile path for network generation (str)
-shp_path = '/home/lkc33/project/western_us_shp_wgs84/Western_States_Merge_4_WGS84.shp'
+shp_path = '/base-path/region.shp'
 
 # network path
 network_path = base_path + '/osmnx_network_weighted.graphml'
@@ -40,9 +41,8 @@ network_weighted = True
 biomass_csv_path = base_path + '/input_files/biomass_centroids.csv'
 
 # raster points from burial tool with c_weights attribute
-shp_paths = ['burial_lca_min1_md667_exc000543_doz0009188_ox01_docf0088_ch4ox075/raster_pts_burial_lca_min1_md667_exc000543_doz0009188_ox01_docf0088_ch4ox075.shp',
-            'burial_lca_min1_md667_exc000543_doz0009188_ox01_docf003_ch4ox075/raster_pts_burial_lca_min1_md667_exc000543_doz0009188_ox01_docf003_ch4ox075.shp',
-            'burial_lca_min1_md667_exc000543_doz0009188_ox01_docf0088_ch4ox01/raster_pts_burial_lca_min1_md667_exc000543_doz0009188_ox01_docf0088_ch4ox01.shp'
+# number of shp_paths in the list should match number of trials
+shp_paths = [''
             ]
 
 
@@ -50,8 +50,8 @@ shp_paths = ['burial_lca_min1_md667_exc000543_doz0009188_ox01_docf0088_ch4ox075/
 
 # buffer distances from biomass centroids (units: km)
 """ 5/9/25 This appears fine to stay in km """
-beccs_buffer_width = 402.336
-raster_buffer_width = 160.934
+beccs_buffer_width = 402.336 # = 250 mi
+raster_buffer_width = 160.934 # = 100 mi
 
 if '_250mi' in trials:
     print('Check raster radius, "_250mi" found in trials list')
