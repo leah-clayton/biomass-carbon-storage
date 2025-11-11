@@ -13,8 +13,10 @@ import rasterio
 from rasterio.mask import mask
 import geopandas as gpd
 
+### OUTPUT: rasters of statistics from the required water storage data cube
+
 # paths to the NetCDF files (don't include / at the end)
-base_path = '/home/lkc33/palmer_scratch'
+base_path = '/base-path'
 
 # set to true if running stats for sensitivity analysis runs (boolean)
 sens_analysis = False
@@ -29,8 +31,8 @@ aet_correct = True
 # specify AET correction factor (float; units of mm d-1)
 aet_factor = 0.5
 
-# model version number (string; check file name)
-vers = '33'
+# model version number (string; check file name for required_storage_prior_accum_v##.py script)
+vers = '35'
 
 # statistic rasters to output
 # options: '95th', 'mean', 'stdev', 'coevar', 'max', 'med' (median)
@@ -44,7 +46,7 @@ stats = ['max', '95th', 'mean', 'stdev', 'coevar', 'med']
 input_loc = base_path + f'/daily_wb_results_2001_2020_v{vers}'
 
 # shapefile path and import
-shp_path = '/home/lkc33/project/western_us_shp_lcc/Western_States_Merge_4_LCC.shp'
+shp_path = '/base-path/region-shapefile.shp'
 gdf = gpd.read_file(shp_path)
 
 src_crs = pyproj.CRS.from_string(
@@ -112,12 +114,12 @@ if sens_analysis == True:
             
             variable_data = req_stat['sr']
         
-            # Get the spatial information from the xarray dataset
+            # get the spatial information from the xarray dataset
             x_coords = req_stat['x'].values
             y_coords = req_stat['y'].values
             transform = rasterio.transform.from_origin(x_coords.min(), y_coords.max(), x_coords[1] - x_coords[0], y_coords[0] - y_coords[1])
         
-            # Create a GeoTIFF file and save the variable as a raster
+            # create a GeoTIFF file and save the variable as a raster
             with rasterio.open(unmasked_save_loc, 'w', driver='GTiff', height=variable_data.shape[0], width=variable_data.shape[1], count=1, dtype=variable_data.dtype, crs=src_crs, transform=transform) as dst:
                 dst.write(variable_data, 1)
                 
@@ -126,7 +128,7 @@ if sens_analysis == True:
                 clipped_data, clip_transform = mask(src, gdf.geometry, crop=True, invert=False)
                 clip_meta = src.meta.copy()
         
-            # Update metadata for the clipped raster
+            # update metadata for the clipped raster
             clip_meta.update({
                 'width': clipped_data.shape[2],
                 'height': clipped_data.shape[1],
@@ -134,7 +136,7 @@ if sens_analysis == True:
                 'crs': src.crs
             })
         
-            # Save the clipped raster to a new file
+            # save the clipped raster to a new file
             with rasterio.open(save_loc, 'w', **clip_meta) as clipped_dst:
                 clipped_dst.write(clipped_data)
                 
@@ -189,12 +191,12 @@ else:
         
         variable_data = req_stat['sr']
     
-        # Get the spatial information from the xarray dataset
+        # get the spatial information from the xarray dataset
         x_coords = req_stat['x'].values
         y_coords = req_stat['y'].values
         transform = rasterio.transform.from_origin(x_coords.min(), y_coords.max(), x_coords[1] - x_coords[0], y_coords[0] - y_coords[1])
     
-        # Create a GeoTIFF file and save the variable as a raster
+        # create a GeoTIFF file and save the variable as a raster
         with rasterio.open(unmasked_save_loc, 'w', driver='GTiff', height=variable_data.shape[0], width=variable_data.shape[1], count=1, dtype=variable_data.dtype, crs=src_crs, transform=transform) as dst:
             dst.write(variable_data, 1)
             
@@ -211,7 +213,7 @@ else:
             'crs': src.crs
         })
     
-        # Save the clipped raster to a new file
+        # save the clipped raster to a new file
         with rasterio.open(save_loc, 'w', **clip_meta) as clipped_dst:
             clipped_dst.write(clipped_data)
             
