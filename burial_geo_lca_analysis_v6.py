@@ -23,15 +23,13 @@ User inputs ******************************************************************
 ''' ------------------------- Set File Paths ------------------------------'''
 
 # path to networks
-network_path = '/home/lkc33/palmer_scratch/burial_lca/networks'
-#network_path = '/Users/leahclayton/Documents/Burial Tool Paper/burial_geo_lca'
+network_path = '/base-path/networks'
 
 # csv output file path
-csv_output = '/home/lkc33/palmer_scratch/burial_lca/optimized_paths_results.csv'
-#csv_output = '/Users/leahclayton/Documents/Burial Tool Paper/burial_geo_lca/optimized_paths_results.csv'
+csv_output = '/base-path/optimized_paths_results.csv'
 
 # set working directory
-wd = '/home/lkc33/palmer_scratch/burial_lca'
+wd = '/base-path/burial_lca'
 os.chdir(wd)
 
 """
@@ -66,7 +64,7 @@ def process_graph(file_path, out_shapefile_dir):
             print(f"Invalid c_weight on edge ({u}, {v}): {data.get('c_weight')}")
             data['c_weight'] = 1e9
     
-    # run single source Dijkstra
+    # run single-source Dijkstra
     try:
         lengths, paths = nx.single_source_dijkstra(G, start_node, weight='c_weight')
     except Exception as e:
@@ -114,7 +112,7 @@ def process_graph(file_path, out_shapefile_dir):
         line_geoms.append(geom)
         total_length += edge_data.get('length', geom.length)
 
-    # Save shapefile
+    # save shapefile
     if line_geoms:
         merged = LineString([pt for line in line_geoms for pt in line.coords])
         gdf = gpd.GeoDataFrame([{
@@ -127,7 +125,7 @@ def process_graph(file_path, out_shapefile_dir):
         out_path = Path(out_shapefile_dir) / f'{Path(file_path).stem}_path.shp'
         gdf.to_file(out_path)
         
-    # Return summary row
+    # return summary row
     return {
         'file': Path(file_path).name,
         'start_lat': float(lat_start),
@@ -151,7 +149,7 @@ def safe_process(file_path):
 def main():
     graph_dir = network_path
 
-    # Load files with both prefixes
+    # load files with both prefixes
     files = sorted(glob.glob(f'{graph_dir}/osmnx_beccs_*.graphml') +
                    glob.glob(f'{graph_dir}/osmnx_raster_*.graphml'))
 
