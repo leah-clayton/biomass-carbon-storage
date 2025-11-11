@@ -18,14 +18,10 @@ import os
 
 """
 User inputs ******************************************************************
-
-RELEVANT SUBSET OF burial_geo_lca_full_network_v5.py for sensitivity analysis
-processing raster --> shapefile points
-
 """
 
 # base path
-base_path = '/home/lkc33/palmer_scratch/burial_lca'
+base_path = '/base-path/burial_lca'
 
 #%% 
 """ Load or Generate network -----------------------------------------------"""
@@ -43,12 +39,11 @@ generate_raster_pts = True
 
 raster_base = base_path + '/raster_sens_analysis'
 
-raster_paths = ['burial_lca_min0_md667_exc00045734_doz00099195_ox01_docf003_ch4ox075.tif',
-                'burial_lca_min0_md667_exc00045734_doz00099195_ox01_docf0088_ch4ox01.tif'
+raster_paths = ['replace_with_raster_files.tif'
                 ]
 
 ## buffer distance for burial distance off existing road (units: km)
-buffer_distance = 0.80467
+buffer_distance = 0.80467 # = 0.5 mi
 
 """
 Start script, do not edit below this line ************************************
