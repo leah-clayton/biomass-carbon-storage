@@ -20,10 +20,13 @@ import numpy as np
 # For base_shp, add _{sens_code} to the end of the file path
 # For sens_type, specify '_{sens_code}'
 
-west_path = '/Users/leahclayton/Documents/Burial Tool Paper/western_states_tight_lcc/western_states_tight_lcc.shp'
-base_shp = '/Users/leahclayton/Documents/Burial Tool Paper/burial_geo_lca/scenario_shapefiles_lowCH4ox'
-raster_path = '/Users/leahclayton/Documents/Burial Tool Paper/Burial Tool GIS/req_soil_depth_95th_v35_aet05_1km_finalclip_mskd.tif'
-
+# region shapefile
+west_path = '/base-path/region.shp'
+# scenario shapefile directory path
+base_shp = '/base-path/burial_geo_lca/scenario_shapefiles'
+# masked required soil depth raster
+raster_path = '/base-path/req_soil_depth_95th_v35_aet05_1km_finalclip_mskd.tif'
+# optional: sensitivity analysis
 sens_type = '_lowCH4ox'
 
 # specify output file type; 'svg' and 'png' coded
@@ -62,7 +65,6 @@ raster_data = np.where(raster_data <= 0, np.nan, raster_data)
 if raster_crs != target_crs:
     from rasterio.warp import transform_bounds
     raster_extent = transform_bounds(raster_crs, target_crs, *raster_extent)
-
 
 # Scenario filenames
 scenarios = ['burial', 'beccs_25', 'beccs_50', 'beccs_75', 'beccs_90', 'beccs_99']
@@ -157,7 +159,6 @@ for i, scenario_file in enumerate(scenario_files):
 
     ax.set_axis_off()
 
-#cbar_ax = fig.add_axes([0.92, 0.25, 0.015, 0.5])  # [left, bottom, width, height]
 #fig.colorbar(raster_img, cax=cbar_ax, label='Raster value (log scale)')
 
 plt.tight_layout()
