@@ -19,11 +19,10 @@ fig, axes = plt.subplots(4, 5, figsize = (10,9),
                          layout='constrained', sharex=True, sharey=True)
 
 # paths to the NetCDF files (don't include / at the end)
-base_path = '/home/lkc33/palmer_scratch'
+base_path = '/base-path'
 
 # shapefile path
-shp_path = '/home/lkc33/project/western_states_tight_lcc/western_states_tight_lcc.shp'
-# shp_path = '/home/lkc33/project/western_us_shp_lcc/Western_States_Merge_4_LCC.shp'
+shp_path = '/states-shapefile.shp'
 
 # specify the type of sensitivity analysis (str) 
 # Options currently coded for: 'high_rdd', 'low_rdd', 'no_snow'
@@ -36,8 +35,6 @@ vmins = [50, -1, -1, -100]
 vmaxs = [77000, 1, 1, 100]
 
 #%%
-
-
 # for AET correction (boolean)
 aet_correct = True
 
@@ -64,8 +61,6 @@ target_crs = pyproj.CRS.from_string(
     '+proj=lcc +lat_1=25 +lat_2=60 +lat_0=42.5 +lon_0=-100 +x_0=0 +y_0=0 '
     '+a=6378137.0 +b=6356752.314140 +units=km +no_defs'
 )
-
-#gdf = gdf_i.to_crs(target_crs.to_wkt())
 
 input_loc = base_path + f'/daily_wb_results_2001_2020_v{vers}'
 
@@ -177,8 +172,6 @@ for n in range(5):
 #%%
 cbar_axes = []
 
-#fig.subplots_adjust(right=0.85)
-
 for row in range(4):
     for col in range(5):
         ax = axes[row, col]
@@ -247,7 +240,7 @@ for row in range(4):
             print(f'\n{row_labels[row]} {x_labels[col]} mean:', mean_3)
             print(f'\n{row_labels[row]} {x_labels[col]} 95th perc:', p95_3)
             print(f'\n{row_labels[row]} {x_labels[col]} 5th perc:', p05_3)
-        ax.set_aspect('equal')  # Ensure square cells
+        ax.set_aspect('equal')
         ax.set_xticks([])
         ax.set_yticks([])
         """
@@ -255,20 +248,10 @@ for row in range(4):
             ax.set_xticklabels()
             ax.set_yticklabels()
             """
-        
-        #gdf.plot(ax=ax, color='none', edgecolor='black', linewidth=0.5)
 
     # Add a color bar for each row
-    """
-    cbar = fig.colorbar(pcm, ax=axes[row, :], orientation='vertical', fraction=0.05, pad=0.1)
-    cbar.set_label(f'{row_labels[row]}')
-    """
-    
-    #cbar_ax = fig.add_axes([0.87, 0.76 - row * 0.21, 0.02, 0.18])
-    #cbar = fig.colorbar(pcm, cax=cbar_ax, orientation='vertical')
     cbar = fig.colorbar(pcm, orientation='vertical')
     cbar.set_label(f'{row_labels[row]}')
-   # cbar_axes.append(cbar_ax)
 
 # Show the plot
 save_path = base_path + f'/high_res_v{vers}_map_analysis_high_res.png'
