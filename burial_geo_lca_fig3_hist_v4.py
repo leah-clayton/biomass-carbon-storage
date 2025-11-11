@@ -19,15 +19,15 @@ sens_type = 'lowCH4ox'
 
 # input dataset
 if sens_analy == True:
-    input_data = f'/Users/leahclayton/Documents/Burial Tool Paper/burial_geo_lca/optimized_paths_results_{sens_type}_post_process.csv'
+    input_data = f'/base-path/optimized_paths_results_{sens_type}_post_process.csv'
 else:
-    input_data = '/Users/leahclayton/Documents/Burial Tool Paper/burial_geo_lca/optimized_paths_results_coded.xlsx'
+    input_data = '/base-path/optimized_paths_results_coded.xlsx'
 
 no_data = -999
 
 # output dataset
 save_excel = False
-output_data = '/Users/leahclayton/Documents/Burial Tool Paper/burial_geo_lca/burial_geo_lca_stats_python.xlsx'
+output_data = '/base-path/burial_geo_lca_stats_python.xlsx'
 
 carbon_efficiency = True
 
@@ -35,9 +35,9 @@ burial_color = 'indianred'
 beccs_color = 'darkslateblue'
 
 if sens_analy == True:
-    hist_base = f'/Users/leahclayton/Documents/Burial Tool Paper/burial_geo_lca/scenario_shapefiles_{sens_type}'
+    hist_base = f'/base-path/scenario_shapefiles_{sens_type}'
 else:
-    hist_base = '/Users/leahclayton/Documents/Burial Tool Paper/Stats/burial_geo_lca_hist'
+    hist_base = '/base-path/burial_geo_lca_hist'
 
 if sens_analy == True:
     df = pd.read_csv(input_data, dtype={'scenario':str})
