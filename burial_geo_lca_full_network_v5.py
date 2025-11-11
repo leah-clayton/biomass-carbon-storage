@@ -20,7 +20,7 @@ User inputs ******************************************************************
 
 This script is to generate the network for analysis. Acquiring one large network
 and then clipping it (different script) is preferable to prevent API load-shedding
-given the large spatial areas being analyzed.
+on osmnx given the large spatial areas being analyzed.
 
 Please read through the user inputs section carefully and respond to each variable.
 
@@ -44,7 +44,7 @@ network isn't loaded in at the correct place.
 """
 
 # base path
-base_path = '/home/lkc33/palmer_scratch/burial_lca'
+base_path = '/base-path/burial_lca'
 
 #%% 
 """ Network generation ----------------------------------------------------"""
@@ -53,7 +53,7 @@ generate_network = False
 
 # If generate network == True,
 ## (1a) Shapefile path for outer bounds of network generation (str)
-shp_path = '/home/lkc33/project/western_us_shp_wgs84/Western_States_Merge_4_WGS84.shp'
+shp_path = '/base-path/region.shp'
 
 ## (1b) Save network WITHOUT c_weights? (bool) True-> yes, False-> no
 save_network = False
