@@ -11,9 +11,16 @@ import pandas as pd
 import geopandas as gpd
 from shapely.geometry import LineString
 
-csv_path = '/home/lkc33/palmer_scratch/burial_lca/min1_for_shp.csv'
-output_base = '/home/lkc33/palmer_scratch/burial_lca/scenario_shapefiles'
-networks_base = '/home/lkc33/palmer_scratch/burial_lca/shapefiles'
+# post-processed csv
+csv_path = '/base-path/post-processed.csv'
+
+# output path
+output_base = '/base-path/burial_lca/scenario_shapefiles'
+
+# networks path
+networks_base = '/base-path/burial_lca/shapefiles'
+
+# specify trial (use '_{trial}' format)
 trial = '_min1'
 
 # One-way transportation c-weights?
