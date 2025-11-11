@@ -23,10 +23,10 @@ User inputs ******************************************************************
 ''' ------------------------- Set File Paths ------------------------------'''
 
 # base path
-base_path = '/home/lkc33/palmer_scratch/burial_lca'
+base_path = '/base-path/burial_lca'
 
 # Shapefile path for network generation (str)
-shp_path = '/home/lkc33/project/western_us_shp_wgs84/Western_States_Merge_4_WGS84.shp'
+shp_path = '/base-path/region.shp'
 
 # is the provided network already weighted? True --> yes; False --> no
 network_weighted = True
@@ -91,7 +91,7 @@ perc_removals = [25, 50, 75, 90, 99]
 save_beccs_pts_network = True
 
 # Build the raster network on top of the BECCS networks?
-raster_beccs_network = False ## WRITE THIS CAPABILITY IN LATER
+raster_beccs_network = False ## THIS CAPACITY NOT CODED FOR
 '''CURRENT: BECCS networks and raster networks SEPARATE'''
 
 
