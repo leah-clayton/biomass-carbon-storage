@@ -12,14 +12,15 @@ from scipy.stats import mode
 from scipy.stats import kurtosis
 import matplotlib.pyplot as plt
 
-# input dataset
-input_data = '/Users/leahclayton/Documents/Burial Tool Paper/burial_geo_lca/optimized_paths_results_lowDOCf_coded.xlsx'
+# input dataset; can be sensitivity analysis or not, just make sure BECCS are
+# also included in the file if running a sensitivity analysis
+input_data = '/base-path/optimized_paths_results_lowDOCf_coded.xlsx'
 
 no_data = -999
 
 # output dataset
 save_excel = True
-output_data = '/Users/leahclayton/Documents/Burial Tool Paper/burial_geo_lca/burial_geo_lca_stats_python_lowDOCf.xlsx'
+output_data = '/base-path/burial_geo_lca_stats_python_lowDOCf.xlsx'
 
 states = ['Arizona', 'California', 'Colorado', 'Idaho', 'Montana', 'Nevada',
           'New Mexico', 'Oregon', 'Utah', 'Washington', 'Wyoming']
@@ -29,7 +30,7 @@ colors = ['tab:blue', 'tab:orange', 'tab:green', 'tab:red', 'tab:purple', 'tab:b
 
 # States histograms?
 states_hist = False
-hist_base = '/Users/leahclayton/Documents/Burial Tool Paper/Stats/burial_geo_lca_hist'
+hist_base = '/base-path/stats/burial_geo_lca_hist'
 
 df = pd.read_excel(input_data, sheet_name = 'optimized_paths_results', dtype={'scenario':str})
 
