@@ -1,0 +1,246 @@
+---
+title: "gNATSGO_burial_tool"
+author: "Original scripts by Alex Wyckoff, compiled by Leah Clayton"
+date: "2025-01-27"
+output: html_document
+---
+Set working directories and output file names throughout before running
+Ensure gNATSGO data is downloaded as "gNATSGO_Agg.csv"
+Most relevant script appears to be (3), but these have not been tested
+
+(1) Preliminary_Tool_Script_Updated.R
+```{r}
+### --- Burial Tool Script --- ###
+
+# Load relevant packages
+library(dplyr)
+library(tidyr)
+
+# Set working directory
+setwd("/set_working_directory")
+
+# Load aggregated gNATSGO table
+gNATSGO_Agg <- read.csv("gNATSGO_Agg.csv")
+head(gNATSGO_Agg)
+
+# Calculate horizon thickness
+gNATSGO_Agg <- gNATSGO_Agg %>%
+  mutate(horizon_thickness_r = hzdepb_r - hzdept_r)
+
+# Calculate total horizon thickness for each cokey
+total_horizon_thickness <- gNATSGO_Agg %>%
+  group_by(cokey) %>%
+  summarise(total_horizon_thickness_r = sum(horizon_thickness_r))
+
+# Calculate weighted averages for the relevant variables
+weighted_averages <- gNATSGO_Agg %>%
+  drop_na(claytotal_r, sandtotal_r, silttotal_r, awc_r) %>%
+  group_by(cokey) %>%
+  summarise(across(
+    c(
+      claytotal_r,
+      sandtotal_r,
+      silttotal_r,
+      awc_r,
+      om_r,
+      ksat_r,
+      aws025wta,
+      aws050wta,
+      aws0100wta,
+      aws0150wta,
+      wfifteenbar_r, 
+      wthirdbar_r,
+    ),
+    ~ sum(. * horizon_thickness_r) / sum(horizon_thickness_r),
+    .names = "weighted_{.col}"
+  ))
+
+# Combine the total horizon thickness and weighted averages
+all_relevant_variables_weighted_means <-
+  merge(total_horizon_thickness, weighted_averages, by = "cokey")%>%
+  select(cokey, mukey, everything())
+
+# Export for processing in ArcGIS
+write.csv(all_relevant_variables_weighted_means, 
+          file = 'output_location/all_relevant_variables_weighted_means.csv')
+```
+
+(2) gNATSGO Processing Script
+```{r}
+### --- Preliminary Burial Tool Script --- ###
+
+# Load relevant packages
+library(dplyr)
+library(tidyr)
+
+# Set working directory
+setwd("/set_working_directory")
+
+# Load aggregated gNATSGO table
+gNATSGO_Agg <- read.csv("gNATSGO_Agg.csv")
+head(gNATSGO_Agg)
+
+# Calculate horizon thickness
+gNATSGO_Agg <- gNATSGO_Agg %>%
+  mutate(horizon_thickness_r = hzdepb_r - hzdept_r)
+
+# Calculate total horizon thickness for each cokey
+total_horizon_thickness <- gNATSGO_Agg %>%
+  group_by(cokey) %>%
+  summarise(total_horizon_thickness_r = sum(horizon_thickness_r))
+
+# Calculate weighted averages for the relevant variables
+weighted_averages <- gNATSGO_Agg %>%
+  drop_na(claytotal_r, sandtotal_r, silttotal_r, awc_r) %>%
+  group_by(cokey) %>%
+  summarise(across(
+    c(
+      claytotal_r,
+      sandtotal_r,
+      silttotal_r,
+      awc_r,
+      om_r,
+      ksat_r,
+      aws025wta,
+      aws050wta,
+      aws0100wta,
+      aws0150wta,
+      wfifteenbar_r, 
+      wthirdbar_r,
+    ),
+    ~ sum(. * horizon_thickness_r) / sum(horizon_thickness_r),
+    .names = "weighted_{.col}"
+  ))
+
+# Combine the total horizon thickness and weighted averages
+all_relevant_variables_weighted_means <-
+  merge(total_horizon_thickness, weighted_averages, by = "cokey")%>%
+  select(cokey, mukey, everything())
+
+# Export for processing in ArcGIS
+write.csv(all_relevant_variables_weighted_means, file = 'output_location/file_name.csv')
+```
+
+(3) gNATSGO_Processing_Script.R
+```{r}
+library(dplyr)
+library(tidyr)
+
+setwd('/set_working_directory')
+gNATSGO_Agg <- read.csv("gNATSGO_Agg.csv")
+
+# Calculate weighted averages by 'cokey'
+weighted_avg_cokey <- gNATSGO_Agg %>%
+  mutate(horizon_thickness = hzdepb_r - hzdept_r,
+         total_thickness = sum(horizon_thickness)) %>%
+  drop_na(awc_r) %>%
+  group_by(cokey) %>%
+  summarise(
+    claytotal_r = weighted.mean(claytotal_r, w = horizon_thickness / total_thickness),
+    sandtotal_r = weighted.mean(sandtotal_r, w = horizon_thickness / total_thickness),
+    silttotal_r = weighted.mean(silttotal_r, w = horizon_thickness / total_thickness),
+    om_r = weighted.mean(om_r, w = horizon_thickness / total_thickness),
+    ksat_r = weighted.mean(ksat_r, w = horizon_thickness / total_thickness),
+    wfifteenbar_r = weighted.mean(wfifteenbar_r, w = horizon_thickness / total_thickness),
+    wthirdbar_r = weighted.mean(wthirdbar_r, w = horizon_thickness / total_thickness),
+    awc_r = weighted.mean(awc_r, w = horizon_thickness / total_thickness)
+  )
+
+# Calculate weighted averages by 'mukey'
+weighted_avg_mukey <- weighted_avg_cokey %>%
+  inner_join(select(gNATSGO_Agg, mukey, cokey, comppct_r), by = "cokey") %>%
+  drop_na(comppct_r) %>%
+  group_by(mukey) %>%
+  summarise(
+    claytotal_r = weighted.mean(claytotal_r, w = comppct_r / 100),
+    sandtotal_r = weighted.mean(sandtotal_r, w = comppct_r / 100),
+    silttotal_r = weighted.mean(silttotal_r, w = comppct_r / 100),
+    om_r = weighted.mean(om_r, w = comppct_r / 100),
+    ksat_r = weighted.mean(ksat_r, w = comppct_r / 100),
+    wfifteenbar_r = weighted.mean(wfifteenbar_r, w = comppct_r / 100),
+    wthirdbar_r = weighted.mean(wthirdbar_r, w = comppct_r / 100),
+    awc_r = weighted.mean(awc_r, w = comppct_r / 100)
+  )
+
+# Print rows to test dataset by hand
+print_weighted_avg_mukey <- weighted_avg_mukey %>% filter(mukey == 507746)
+print(print_weighted_avg_mukey)
+
+# Print rows to test dataset by hand
+print_gNATSGO_Agg <- gNATSGO_Agg %>% filter(mukey == 507710)
+print(print_gNATSGO_Agg)
+
+write.csv(weighted_avg_mukey, 
+          file = '/output_location/Weighted_Avg_Mukey.csv')
+```
+
+(4) om_script.R -- should be included in (3)
+
+om_r: A representative value of the amount by weight of decomposed plant and 
+animal residue expressed as a weight percentage of the less than 2 mm soil material.
+```{r}
+library(dplyr)
+library(tidyr)
+
+setwd('/set_working_directory')
+gNATSGO_Agg <- read.csv("gNATSGO_Agg.csv")
+
+# Calculate weighted averages by 'cokey'
+weighted_avg_cokey <- gNATSGO_Agg %>%
+  mutate(horizon_thickness = hzdepb_r - hzdept_r,
+         total_thickness = sum(horizon_thickness)) %>%
+  drop_na(om_r) %>%
+  group_by(cokey) %>%
+  summarise(
+    om_r = weighted.mean(om_r, w = horizon_thickness / total_thickness),
+    
+  )
+
+# Calculate weighted averages by 'mukey'
+weighted_avg_mukey <- weighted_avg_cokey %>%
+  inner_join(select(gNATSGO_Agg, mukey, cokey, comppct_r), by = "cokey") %>%
+  drop_na(comppct_r) %>%
+  group_by(mukey) %>%
+  summarise(
+    om_r = weighted.mean(om_r, w = comppct_r / 100),
+  )
+
+write.csv(weighted_avg_mukey, 
+          file = 'output_location/Weighted_Avg_Mukey_om_r.csv')
+```
+
+(5) kwfact_script.R
+
+kwfact: An erodibility factor which quantifies the susceptibility of soil 
+particles to detachment and movement by water. This factor is adjusted for the
+effect of rock fragments.
+```{r}
+library(dplyr)
+library(tidyr)
+
+setwd('/set_working_directory')
+gNATSGO_Agg <- read.csv("gNATSGO_Agg.csv")
+
+# Calculate weighted averages by 'cokey'
+weighted_avg_cokey <- gNATSGO_Agg %>%
+  mutate(horizon_thickness = hzdepb_r - hzdept_r,
+         total_thickness = sum(horizon_thickness)) %>%
+  drop_na(kwfact) %>%
+  group_by(cokey) %>%
+  summarise(
+    kwfact = weighted.mean(kwfact, w = horizon_thickness / total_thickness),
+    
+  )
+
+# Calculate weighted averages by 'mukey'
+weighted_avg_mukey <- weighted_avg_cokey %>%
+  inner_join(select(gNATSGO_Agg, mukey, cokey, comppct_r), by = "cokey") %>%
+  drop_na(comppct_r) %>%
+  group_by(mukey) %>%
+  summarise(
+    kwfact = weighted.mean(kwfact, w = comppct_r / 100),
+  )
+
+write.csv(weighted_avg_mukey, 
+          file = 'output_location/Weighted_Avg_Mukey_kwfact.csv')
+```
