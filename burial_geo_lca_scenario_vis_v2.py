@@ -14,7 +14,7 @@ import rasterio
 from rasterio.plot import reshape_as_image
 import numpy as np
 
-
+# use for main text fig 3, s2, s3
 ### INSTRUCTIONS FOR SENSITIVITY ANALYSIS ###
 # Where {sens_code} is equivalent to the sensitivity analysis code
 # For base_shp, add _{sens_code} to the end of the file path
