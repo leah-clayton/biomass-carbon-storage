@@ -29,7 +29,7 @@ out_type = 'svg'
 
 #%% set file paths
 
-base_path = '/home/lkc33/palmer_scratch/burial_lca'
+base_path = '/base-path/burial_lca'
 
 # output csv file for dataframe
 output_file = base_path + '/burial_geo_lca_raster_sens_analysis.csv'
@@ -316,9 +316,8 @@ print('R-squared:', r_squared)
 
 std_errs = np.sqrt(np.diag(covariance))
 
-# Calculate confidence intervals
-conf_ints = 1.96 * std_errs  # Assuming 95% confidence level
-# Plot confidence intervals
+# plot confidence intervals
+conf_ints = 1.96 * std_errs  #  95% confidence level
 lower_ci = linreg(x, *(params - conf_ints))
 upper_ci = linreg(x, *(params + conf_ints))
 # ax1.fill_between(x, lower_ci, upper_ci, color=ox_color, alpha=0.2) # ci's so small, not worth plotting
@@ -351,10 +350,8 @@ print('R-squared:', r_squared)
 
 std_errs = np.sqrt(np.diag(covariance))
 
-# Calculate confidence intervals
-conf_ints = 1.96 * std_errs  # Assuming 95% confidence level
-        
-# Plot confidence intervals
+# plot confidence intervals
+conf_ints = 1.96 * std_errs  #  95% confidence level
 lower_ci = linreg(x, *(params - conf_ints))
 upper_ci = linreg(x, *(params + conf_ints))
 # ax1.fill_between(x, lower_ci, upper_ci, color=docf_color, alpha=0.2) # ci's so small, not worth plotting
@@ -387,10 +384,8 @@ print('R-squared:', r_squared)
 
 std_errs = np.sqrt(np.diag(covariance))
 
-# Calculate confidence intervals
-conf_ints = 1.96 * std_errs  # Assuming 95% confidence level
-        
-# Plot confidence intervals
+# plot confidence intervals
+conf_ints = 1.96 * std_errs  #  95% confidence level
 lower_ci = linreg(x, *(params - conf_ints))
 upper_ci = linreg(x, *(params + conf_ints))
 # ax1.fill_between(x, lower_ci, upper_ci, color=ch4ox_color, alpha=0.2) # ci's so small, not worth plotting
@@ -439,10 +434,8 @@ print('R-squared:', r_squared)
 
 std_errs = np.sqrt(np.diag(covariance))
 
-# Calculate confidence intervals
-conf_ints = 1.96 * std_errs  # Assuming 95% confidence level
-        
-# Plot confidence intervals
+# plot confidence intervals
+conf_ints = 1.96 * std_errs  #  95% confidence level
 lower_ci = linreg(x, *(params - conf_ints))
 upper_ci = linreg(x, *(params + conf_ints))
 # ax1.fill_between(x, lower_ci, upper_ci, color=ox_color, alpha=0.2) # ci's so small, not worth plotting
@@ -474,11 +467,9 @@ print('Linear Regression:', equation)
 print('R-squared:', r_squared)
 
 std_errs = np.sqrt(np.diag(covariance))
-
-# Calculate confidence intervals
-conf_ints = 1.96 * std_errs  # Assuming 95% confidence level
         
-# Plot confidence intervals
+# plot confidence intervals
+conf_ints = 1.96 * std_errs  #  95% confidence level
 lower_ci = linreg(x, *(params - conf_ints))
 upper_ci = linreg(x, *(params + conf_ints))
 # ax1.fill_between(x, lower_ci, upper_ci, color=docf_color, alpha=0.2) # ci's so small, not worth plotting
@@ -511,10 +502,8 @@ print('R-squared:', r_squared)
 
 std_errs = np.sqrt(np.diag(covariance))
 
-# Calculate confidence intervals
-conf_ints = 1.96 * std_errs  # Assuming 95% confidence level
-        
-# Plot confidence intervals
+# plot confidence intervals
+conf_ints = 1.96 * std_errs  #  95% confidence level
 lower_ci = linreg(x, *(params - conf_ints))
 upper_ci = linreg(x, *(params + conf_ints))
 #ax1.fill_between(x, lower_ci, upper_ci, color=ch4ox_color, alpha=0.2)
