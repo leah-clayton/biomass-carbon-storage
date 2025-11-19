@@ -1,5 +1,6 @@
 # biomass-carbon-storage
-Code for the model and visualizations "Near-term, geospatial opportunity for biomass carbon storage to address the wildfire and climate crises" by Leah K. Clayton, Alexander S. Wyckoff, and Sinéad M. Crotty
+Code for the model and visualizations "Near-term, geospatial opportunity for biomass carbon storage to address the wildfire and climate crises" by Leah K. Clayton, Alexander S. Wyckoff, and Sinéad M. Crotty.
+
 Code was written and compiled by Leah K. Clayton (leah.clayton@cclab.org)
 
 ## Implementation diagram
