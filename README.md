@@ -37,7 +37,7 @@ The model was designed and run in 2023-2025 using Python 3.11 and 3.12
 ### Computing
 Most of the scripts are designed for high-performance computing due to their large memory requirements (up to 1TB) or time requirements (up to 5 days). Scripts designed for parallel processing are marked in the diagram with suggested configurations, but they can be adapted for a single processor.
 
-### Included data
+### Data included in this repository
 - [LCA_supplement.xlsx](LCA_supplement.xlsx): Feedstock modeling from Pett-Ridge et al. (2023) and LCA calculations with sources for pile burning, burial, BECCS, and biochar
 - [biomass_centroids.csv](biomass_centroids.csv): Feedstock modeling data formatted for use in the Python model
 - [beccs_end_nodes.csv](beccs_end_nodes.csv): BECCS end nodes from Pett-Ridge et al. (2023) modeling for use in the Python model
