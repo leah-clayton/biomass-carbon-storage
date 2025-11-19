@@ -1,8 +1,9 @@
 # biomass-carbon-storage
 Code for the model and visualizations "Near-term, geospatial opportunity for biomass carbon storage to address the wildfire and climate crises" by Leah K. Clayton, Alexander S. Wyckoff, and Sinéad M. Crotty.
 
-Code was written and compiled by Leah Clayton (leah.clayton@cclab.org)
-LCA was conducted by Sinead Crotty
+Contact: leah.clayton@cclab.org
+
+The majority of the code was written and compiled by LKC; ASW contributed gnatsgo_burial_tool.Rmd; SMC conducted the LCA and feedstock modeling
 
 ## Implementation diagram
 *(zoom in to read)*
