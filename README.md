@@ -3,7 +3,7 @@ Code for the model and visualizations "Near-term, geospatial opportunity for bio
 
 Contact: leah.clayton@cclab.org
 
-The majority of the code was written and compiled by LKC; ASW contributed gnatsgo_burial_tool.Rmd; SMC conducted the LCA and feedstock modeling
+The majority of the code was written and compiled by LKC; ASW contributed [gnatsgo_burial_tool.Rmd](gnatsgo_burial_tool.Rmd); SMC conducted the LCA and feedstock modeling
 
 ## Implementation diagram
 *(zoom in to read)*
