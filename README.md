@@ -1,5 +1,6 @@
 # biomass-carbon-storage
-Zenodo archive: https://doi.org/10.5281/zenodo.17645348
+Zenodo archive:
+[![DOI](https://zenodo.org/badge/1093799545.svg)](https://doi.org/10.5281/zenodo.17645348)
 
 Code for the model and visualizations "Near-term, geospatial opportunity for biomass carbon storage to address the wildfire and climate crises" by Leah K. Clayton, Alexander S. Wyckoff, and Sinéad M. Crotty.
 
