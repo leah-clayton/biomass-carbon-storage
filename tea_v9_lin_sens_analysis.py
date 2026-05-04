@@ -102,7 +102,7 @@ omega_pb_h = 104.33 # Barker et al. 2025, convers. to 2026$
 """
 
 # figure save path
-save_path = '/Users/leahclayton/Documents/burial_tool_paper/tea'
+save_path = '/enter_save_path'
 
 #%%
 """
