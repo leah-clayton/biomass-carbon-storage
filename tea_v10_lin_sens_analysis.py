@@ -22,9 +22,9 @@ phi_l = 17.17 # 0-500 ft from roads, 0-20% slope
 phi_h = 38.03 # 1000 ft - 0.5 mi from roads, 20-40% slope
 
 # alpha: transport cost($) ONE-WAY distance(km)^-1 MTCO2e_i^-1
-alpha_b = 0.1023
-alpha_l = 0.1023
-alpha_h = 0.2774
+alpha_b = 0.1023 # Stolaroff et al. 2021, convers. to 2026$
+alpha_l = 0.1023 # Stolaroff et al. 2021, convers. to 2026$
+alpha_h = 0.2774 # theoretical, field-based understanding
 
 # x: ONE-WAY transport distance; km
 x_beccs_b = 196 # this paper network LCA
@@ -102,7 +102,7 @@ omega_pb_h = 104.33 # Barker et al. 2025, convers. to 2026$
 """
 
 # figure save path
-save_path = '/Users/leahclayton/Documents/burial_tool_paper/tea'
+save_path = '/set_save_path'
 
 #%%
 """
