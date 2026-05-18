@@ -4,7 +4,7 @@ Zenodo archive:
 
 Code for the model and visualizations "Near-term, geospatial opportunity for biomass carbon storage to address the wildfire and climate crises" by Leah K. Clayton, Alexander S. Wyckoff, and Sinéad M. Crotty.
 
-Contact: leah.clayton@cclab.org
+Contact: leah.clayton@cclab.org (leahkc@stanford.edu after May 29, 2026)
 
 The majority of the code was written and compiled by LKC; ASW contributed [gnatsgo_burial_tool.Rmd](gnatsgo_burial_tool.Rmd); SMC conducted the [LCA](LCA_supplement.xlsx) and [feedstock modeling](biomass_centroids.csv)
 
@@ -44,6 +44,8 @@ Most of the scripts are designed for high-performance computing due to their lar
 - [LCA_supplement.xlsx](LCA_supplement.xlsx): Feedstock modeling from Pett-Ridge et al. (2023) and LCA calculations with sources for pile burning, burial, BECCS, and biochar
 - [biomass_centroids.csv](biomass_centroids.csv): Feedstock modeling data formatted for use in the Python model
 - [beccs_end_nodes.csv](beccs_end_nodes.csv): BECCS end nodes from Pett-Ridge et al. (2023) modeling for use in the Python model
+- [TEA_supplement.xlsx](TEA_supplement.xlsx): TEA calculations and parameters for Python script with sources
+- [acreage_scenario_supplement.xlsx](acreage_scenario_supplement.xlsx): 3.5 million acres of fuel treatment scenario and net income for all counties and accessibility classes
 
 ### Additional publicly available data
 - Boiko, O., Kagone, S., & Senay, G. (2021). Soil properties dataset in the United States [Dataset]. U.S. Geological Survey. https://doi.org/10.5066/P9TI3IS8
